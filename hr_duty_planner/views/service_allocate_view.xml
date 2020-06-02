@@ -82,9 +82,10 @@
                                     context = "{'resource_type':'all', 'srv_id': id}"
                                     type="object" class="btn-primary"/>
                             <br/>
-                            <button name="_todo_" colspan="2"
-                                    string="Check rules _todo_"
-                                    context = "{'resource_type':'all', 'srv_id': id}"
+                            <button name="rule_call" colspan="2"
+                                    string="Check rules ALPHA"
+                                    context = "{'rule_name':'hour_active_week',
+                                                'srv_id': id}"
                                     type="object" class="btn-primary"/>
                         </group>
                     </group>

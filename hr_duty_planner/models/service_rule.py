@@ -53,7 +53,17 @@ class ServiceRule(models.Model):
             date_fin = service.scheduled_stop
 
             if resource_type in ('employee', 'all') :
-                for employee in service.employee_ids:
+                # if it is a next service uses the parent employees for check
+                # if lock is activated
+                lock = service.parent_service_id.service_template_id.next_lock_employee
+                employee_list = (
+                    service.employee_ids
+                        if not service.parent_service_id or not lock
+                        else self.env['service.allocate'] \
+                                 .search([('id', '=', service.parent_service_id.id),
+                                          ]).employee_ids
+                    )
+                for employee in employee_list:
                     all_services = self.env['service.allocate'] \
                                        .search([('id', '!=', service.id),
                                                 ('scheduled_start', '<', date_fin),
@@ -68,7 +78,17 @@ class ServiceRule(models.Model):
                                                                   employee.name))
 
             if resource_type in ('equipment', 'all'):
-                for equipment in service.equipment_ids:
+                # if it is a next service uses the parent equipments for check
+                # if lock is activated
+                lock = service.parent_service_id.service_template_id.next_lock_equipment
+                equipment_list = (
+                    service.equipment_ids
+                        if not service.parent_service_id or not lock
+                        else self.env['service.allocate'] \
+                                 .search([('id', '=', service.parent_service_id.id),
+                                         ]).equipment_ids
+                    )
+                for equipment in equipment_list:
                     all_services = self.env['service.allocate'] \
                                        .search([('id', '!=', service.id),
                                                 ('scheduled_start', '<', date_fin),
@@ -83,7 +103,17 @@ class ServiceRule(models.Model):
                                                                   equipment.name))
 
             if resource_type in ('vehicle', 'all'):
-                for vehicle in service.vehicle_ids:
+                # if it is a next service uses the parent vehicles for check
+                # if lock is activated
+                lock = service.parent_service_id.service_template_id.next_lock_vehicle
+                vehicle_list = (
+                    service.vehicle_ids
+                        if not service.parent_service_id or not lock
+                        else self.env['service.allocate'] \
+                                 .search([('id', '=', service.parent_service_id.id),
+                                         ]).vehicle_ids
+                    )
+                for vehicle in vehicle_list:
                     all_services = self.env['service.allocate'] \
                                        .search([('id', '!=', service.id),
                                                 ('scheduled_start', '<', date_fin),
@@ -101,7 +131,7 @@ class ServiceRule(models.Model):
             raise UserError(_('Elements with overlapped shift:')+'\n'+rule_msg)
         return rule_result
 
-    def rule_call(self, rule):
+    def rule_call(self, rule, obj_id):
         """
         Call requested rule
         @param  rule    obj: form select element with name of the rule to call:
@@ -110,12 +140,12 @@ class ServiceRule(models.Model):
         """
 
         # _TODO_ check if in rule_id
-        rule_name = rule['rule_name']
+        rule_name = rule
         # Get the method from 'self'. Default to a lambda.
         method = getattr(self, rule_name, lambda: "Invalid rule")
         # Call the method as we return it
 
-        result = method()
+        result = method(obj_id)
         return result
 
     def _rule_method_template(self):
@@ -126,13 +156,27 @@ class ServiceRule(models.Model):
         """
         return 0
 
-    def hour_active_week(self):
+    def hour_active_week(self, obj_id):
         """
         Calculate the total of active hours of a resource in a week.
         By active hours is meant work+on call
+
         _todo_ define/set active shift
         """
-        return 42
+        total_time = 0
+        for employee in (self.env['service.allocate']
+                         .search([('id', '=', obj_id)]).employee_ids):
+            sql = ('SELECT service_allocate_id '
+                   'FROM hr_employee_service_allocate_rel '
+                   'WHERE hr_employee_id='+str(employee.id))
+            self.env.cr.execute(sql)
+            
+            for srv_id in self.env.cr.fetchall():
+                total_time += self.env['service.allocate'] \
+                                  .search([('id', '=', srv_id)]) \
+                                  .service_template_id.duration
+        raise UserError(_('Totale ore uomo %s') % (total_time))
+        return total_time
 
     def hour_rest_week(self):
         """

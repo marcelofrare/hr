@@ -36,6 +36,7 @@
                         <group>
                             <h1><field name="name"/></h1>
                         </group>
+
                         <group>
                             <button name="%(hr_duty_planner.service_generate_wizard)d"
                                 attrs="{'invisible':[('off_duty','!=',False)]}"
@@ -57,11 +58,17 @@
                             <field name="base_color" widget="color"
                                    options="{'readonly_mode': 'color'}"/>
                             <br/>
-                            <field name="next_template_id" 
+                            <field name="next_template_id"
+                                   attrs="{'invisible':[('off_duty','!=',False)]}"/>
+                            <field name="next_lock_employee"
+                                   attrs="{'invisible':[('off_duty','!=',False)]}"/>
+                            <field name="next_lock_equipment"
+                                   attrs="{'invisible':[('off_duty','!=',False)]}"/>
+                            <field name="next_lock_vehicle"
                                    attrs="{'invisible':[('off_duty','!=',False)]}"/>
                     </group>
 
-                    <group class="sp_td_label" 
+                    <group class="sp_td_label"
                         attrs="{'invisible':[('off_duty','!=',False)]}">
                         <h1 colspan="2">Requested Features</h1>
                          <field name="exp_skill_ids" widget="one2many_list" >

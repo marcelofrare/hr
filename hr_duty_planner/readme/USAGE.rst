@@ -29,7 +29,8 @@
    * Check if it is an Off Duty Service (normally used to track some informations, ie. rest shifts)
    * Add requested Features to be sure to not forget to assign Resources.
      (Minimum quantity if  zero will not be considered)
-   * Optional, associate a Next Service: this will be automatically generated starting form the end of this one
+   * Optional, associate a Next Service: this will be automatically generated starting form the end of this one.
+   * Optional, set resources of parent service locked by the next service
 
  **Select Template → Service Template → your template**
   * Clik on *Generate Services* button

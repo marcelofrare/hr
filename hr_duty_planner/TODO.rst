@@ -9,9 +9,6 @@ ToDo list
         * DEV complete rule method management
     * calendar
         * DEV check module
-    * demo data
-        * FIX content
-
 
 **Views**
     * service template form
@@ -53,4 +50,4 @@ ToDo list
 
 
 **Readme**
-oca-gen-addon-readme --repo-name vertical-ngo --branch 12.0 --addon-dir ~/odoo-dev/odoo12/OCA/addons-custom-sp/service_planner/
+oca-gen-addon-readme --repo-name hr --branch 12.0 --addon-dir ~/odoo-dev/odoo12/OCA/addons-custom-sp/hr_duty_planner/
