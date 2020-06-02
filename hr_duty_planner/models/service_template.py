@@ -55,6 +55,16 @@ class ServiceTemplate(models.Model):
         'service.template',
         string='Next Service',
         help='Service Template to insert after the end of this one')
+    # Next service lock employees
+    next_lock_employee = fields.Boolean('Lock Employees', default=True,
+        help='Next service will allocate Employees of the parent service',)
+    # Next service lock equipments
+    next_lock_equipment = fields.Boolean('Lock Equipments', default=False,
+        help='Next service will allocate Equipments of the parent service',)
+    # Next service lock vehicles
+    next_lock_vehicle = fields.Boolean('Lock Vehicles', default=False,
+        help='Next service will allocate Vehicles of the parent service',)
+
 
     @api.multi
     def write(self, values):

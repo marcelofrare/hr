@@ -244,6 +244,15 @@ class ServiceAllocate(models.Model):
                                                         parameters['srv_id'])
         return result
 
+    def rule_call(self, parameters):
+        """
+        _TODO_ _FIX_ direct call to service.rule.rule_call on the button
+        """
+        result = self.env['service.rule'].rule_call(parameters['rule_name'],
+                                                    parameters['srv_id'])
+        return result
+
+
     @api.model
     def create(self, values):
         """
