@@ -88,7 +88,7 @@
             <field name="category_id" eval="ref('equipment_cat_3')"/>
         </record>
 
-        <!-- service profileparameter -->
+        <!-- service profile parameter -->
         <record id="service_profileparameter_1" model="service.profileparameter">
             <field name="rule_id">1</field>
             <field name="rule_field_id">1</field>
@@ -105,7 +105,7 @@
             <field name="field_value">40</field>
         </record>
         <record id="service_profileparameter_4" model="service.profileparameter">
-            <field name="rule_id">1</field>
+            <field name="rule_id">3</field>
             <field name="rule_field_id">1</field>
             <field name="field_value">16</field>
         </record>
@@ -130,36 +130,36 @@
 
         <!-- hr employee -->
         <record id="hr_employee_1" model="hr.employee">
-            <field name="name">Fabrizio Bianchi</field>
+            <field name="name">AA Fabrizio Bianchi</field>
             <field name="profile_id" eval="ref('service_profile_3')"/>
         </record>
         <record id="hr_employee_2" model="hr.employee">
-            <field name="name">Roberto Testa</field>
+            <field name="name">AA Roberto Testa</field>
             <field name="profile_id" eval="ref('service_profile_1')"/>
         </record>
         <record id="hr_employee_3" model="hr.employee">
-            <field name="name">Bianca Monti</field>
+            <field name="name">AA Bianca Monti</field>
             <field name="profile_id" eval="ref('service_profile_2')"/>
         </record>
         <record id="hr_employee_4" model="hr.employee">
-            <field name="name">Moreno Rossi</field>
+            <field name="name">AA Moreno Rossi</field>
             <field name="profile_id" eval="ref('service_profile_3')"/>
         </record>
         <record id="hr_employee_5" model="hr.employee">
-            <field name="name">Luca Verdi</field>
+            <field name="name">AA Luca Verdi</field>
             <field name="profile_id" eval="ref('service_profile_1')"/>
         </record>
         <record id="hr_employee_6" model="hr.employee">
-            <field name="name">Dina Lampa</field>
+            <field name="name">AA Dina Lampa</field>
             <field name="profile_id" eval="ref('service_profile_1')"/>
         </record>
         <record id="hr_employee_7" model="hr.employee">
-            <field name="name">Dario Lampa</field>
-            <field name="profile_id" eval="ref('service_profile_1')"/>
+            <field name="name">AA Dario Lampa</field>
+            <field name="profile_id" eval="ref('service_profile_4')"/>
         </record>
         <record id="hr_employee_8" model="hr.employee">
-            <field name="name">Dino Como</field>
-            <field name="profile_id" eval="ref('service_profile_1')"/>
+            <field name="name">AA Dino Como</field>
+            <field name="profile_id" eval="ref('service_profile_4')"/>
         </record>
 
         <!-- hr skill -->
@@ -186,6 +186,10 @@
         </record>
         <record id="expected_skill_2" model="expected.skill">
             <field name="skill_id" eval="ref('hr_skill_2')"/>
+            <field name="min_qty">1</field>
+        </record>
+        <record id="expected_skill_3" model="expected.skill">
+            <field name="skill_id" eval="ref('hr_skill_5')"/>
             <field name="min_qty">1</field>
         </record>
 
@@ -256,15 +260,19 @@
         <record id="service_template_1" model="service.template">
             <field name="name">Call center diurnal</field>
             <field name="service_container_ids" eval="[(6, 0,[ref('service_container_2')])]"/>
+            <field name="exp_skill_ids" eval="[(6, 0, [ref('expected_skill_3')])]"/>
             <field name="duration">16</field>
             <field name="duration_uom_id">6</field>
+            <field name="color">#6AFF6A</field>
         </record>
 
         <record id="service_template_2" model="service.template">
             <field name="name">Call center night</field>
             <field name="service_container_ids" eval="[(6, 0,[ref('service_container_2')])]"/>
+            <field name="exp_skill_ids" eval="[(6, 0, [ref('expected_skill_3')])]"/>
             <field name="duration">16</field>
             <field name="duration_uom_id">6</field>
+            <field name="color">#6A6AFF</field>
         </record>
 
         <record id="service_template_3" model="service.template">
@@ -273,6 +281,7 @@
             <field name="duration">8</field>
             <field name="duration_uom_id">6</field>
             <field name="off_duty">True</field>
+            <field name="color">#BEBEBE</field>
         </record>
 
         <record id="service_template_4" model="service.template">
@@ -284,6 +293,7 @@
             <field name="exp_skill_ids" eval="[(6, 0, [ref('expected_skill_1'),ref('expected_skill_2')])]"/>
             <field name="exp_eqp_cat_ids" eval="[(6, 0, [ref('equipment_type_1'),ref('equipment_type_2'),ref('equipment_type_3')])]"/>
             <field name="exp_vehicle_ids" eval="[(6, 0, [ref('vehicle_exp_1')])]" />
+            <field name="color">#FF6A6A</field>
         </record>
 
         <!-- service allocate - emergency -->

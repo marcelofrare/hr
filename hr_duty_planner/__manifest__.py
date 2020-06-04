@@ -6,8 +6,7 @@
     "summary":  "Management of duty planning.",
     "version":  "12.0.1.0.0",
 
-    "author":   "Stefano Consolaro, "
-                "Associazione PNLUG - Gruppo Odoo",
+    "author":   "Stefano Consolaro, Associazione PNLUG - Gruppo Odoo",
     "website":  "https://github.com/PNLUG/vertical-ngo/",
     "license":  "AGPL-3",
 
@@ -42,7 +41,6 @@
         'views/employee_profile.xml',
         ],
     "css": [
-        'static/src/css/service_planner.css',
+        'static/src/css/hr_duty_planner.css',
         ],
-    'installable': True,
 }

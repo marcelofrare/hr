@@ -32,7 +32,7 @@
                 <field name="employee_ids" widget="many2many_tags"/>
                 <field name="vehicle_ids" widget="many2many_tags"/>
                 <field name="equipment_ids" widget="many2many_tags"/>
-                <field name="generation_key"/>
+                <field name="generation_id"/>
             </tree>
         </field>
      </record>
@@ -61,7 +61,7 @@
                                 <field name="next_service_id" readonly="1"
                                     attrs="{'invisible':[('off_duty','!=',False)]}"/>
                                 <br/><br/>
-                                <field name="generation_key" readonly="1"/>
+                                <field name="generation_id" readonly="1"/>
                             </group>
                         </group>
                         <group attrs="{'invisible':[('off_duty','!=',False)]}">
@@ -75,6 +75,9 @@
                             <field name="vehicle_ids" widget="many2many_tags"/>
                             <field name="vehicle_check" readonly="1" force_save="1"/>
                             <br/>
+                            
+                        </group>
+                        <group>
                             <!-- _TODO_ _FIX_ direct
                                 call to service.rule.double_assign on the button -->
                             <button name="double_assign" colspan="2"
@@ -83,9 +86,14 @@
                                     type="object" class="btn-primary"/>
                             <br/>
                             <button name="rule_call" colspan="2"
-                                    string="Check rules ALPHA"
+                                    string="Check rules TEST"
                                     context = "{'rule_name':'hour_active_week',
                                                 'srv_id': id}"
+                                    type="object" class="btn-primary"/>
+                            <br/>
+                            <button name="check_resource_rule" colspan="2"
+                                    string="Check resources rules"
+                                    context = "{'srv_id': id}"
                                     type="object" class="btn-primary"/>
                         </group>
                     </group>

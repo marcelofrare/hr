@@ -70,7 +70,7 @@ class ServiceGenerateWizard(models.TransientModel):
                     5: self.day_sat,
                     6: self.day_sun
                     }
-        generation_key = datetime.datetime.now().strftime("A %Y-%m-%d-%H-%M-%S")
+        generation_id = datetime.datetime.now().strftime("A %Y-%m-%d-%H-%M-%S")
 
         while True:
             # get minimum between interval and duration
@@ -93,7 +93,7 @@ class ServiceGenerateWizard(models.TransientModel):
                 "service_template_id"   : self.service_template_id.id,
                 "service_container_id"  : self.service_container_id.id,
                 "scheduled_start"       : date_pointer,
-                "generation_key"        : generation_key,
+                "generation_id"        : generation_id,
                 }
 
             self.env['service.allocate'].create(new_service_data)

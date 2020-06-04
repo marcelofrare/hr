@@ -11,7 +11,9 @@
         <field name="arch" type="xml">
             <tree string="Profile">
                 <field name="name"/>
-                <field name="parameter_ids" widget="many2many_tags"/>
+                <field name="rule_ignore"/>
+                <field name="parameter_ids" widget="many2many_tags"
+                    attrs="{'invisible':[('rule_ignore','=',True)]}"/>
             </tree>
         </field>
     </record>
@@ -23,12 +25,15 @@
             <form string="Service Profile">
                 <group>
                     <group>
-                        <group>
-                            <h1><field name="name"/></h1>
-                        </group>
+                        <h1><field name="name"/></h1>
+                    </group>
+                </group>
+                <group>
+                    <group>
+                        <field name="rule_ignore"/>
                     </group>
                     <br/>
-                    <group>
+                    <group attrs="{'invisible':[('rule_ignore','=',True)]}">
                         <field name="parameter_ids" widget="one2many_list">
                             <tree string="Lines" editable="bottom">
                                 <field name="rule_id"/>
