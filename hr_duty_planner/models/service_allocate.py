@@ -3,6 +3,7 @@
 
 from odoo import fields, models, api, _
 import datetime
+import json
 
 
 class ServiceAllocate(models.Model):
@@ -29,9 +30,9 @@ class ServiceAllocate(models.Model):
                                            string='Container service',
                                            required=True,
                                            )
-    # generation key (eg. to select a list of aumatic generated services)
-    generation_key = fields.Char('Generation Key',
-                                 help='Group services generated automatically')
+    # generation id (eg. to select a list of aumatic generated services)
+    generation_id = fields.Char('Generation ID',
+                                help='Group services generated automatically')
     # dedicated color
     service_color = fields.Char('Color',
                                 related='service_template_id.base_color')
@@ -252,6 +253,20 @@ class ServiceAllocate(models.Model):
                                                     parameters['srv_id'])
         return result
 
+    def check_resource_rule(self, parameters):
+        """
+        Check rules for each resource associated to the service
+        @param srv_id int: id of the service
+        """
+
+        for employee in self.env['service.allocate'] \
+                            .search([('id', '=', parameters['srv_id'])]).employee_ids:
+            rule_method = {}
+            for rule in employee.profile_id.parameter_ids:
+                rule_method[rule.rule_id.method] = {rule.rule_field_id.field_name:
+                                                    rule.field_value}
+            print(employee.name+' '+json.dumps(rule_method))
+        return
 
     @api.model
     def create(self, values):
@@ -260,9 +275,9 @@ class ServiceAllocate(models.Model):
         """
         new_service = super(ServiceAllocate, self).create(values)
 
-        # generation key can be set by the automatic flow
-        if not new_service.generation_key:
-            new_service.generation_key = datetime.datetime.now(). \
+        # generation id can be set by the automatic flow
+        if not new_service.generation_id:
+            new_service.generation_id = datetime.datetime.now(). \
                 strftime("M %Y-%m-%d-%H-%M-%S")
 
         # generate next service if present on template
@@ -279,7 +294,7 @@ class ServiceAllocate(models.Model):
                 "service_container_id"  : next_cont,
                 "scheduled_start"       : next_strt,
                 "parent_service_id"     : new_service.id,
-                "generation_key"        : new_service.generation_key,
+                "generation_id"         : new_service.generation_id,
                 }
             new_service_nxt = super(ServiceAllocate, self).create(new_service_data)
             # save child reference

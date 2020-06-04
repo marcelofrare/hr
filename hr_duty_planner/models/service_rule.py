@@ -58,10 +58,10 @@ class ServiceRule(models.Model):
                 lock = service.parent_service_id.service_template_id.next_lock_employee
                 employee_list = (
                     service.employee_ids
-                        if not service.parent_service_id or not lock
-                        else self.env['service.allocate'] \
-                                 .search([('id', '=', service.parent_service_id.id),
-                                          ]).employee_ids
+                    if not service.parent_service_id or not lock
+                    else self.env['service.allocate']
+                             .search([('id', '=', service.parent_service_id.id),
+                                      ]).employee_ids
                     )
                 for employee in employee_list:
                     all_services = self.env['service.allocate'] \
@@ -83,10 +83,10 @@ class ServiceRule(models.Model):
                 lock = service.parent_service_id.service_template_id.next_lock_equipment
                 equipment_list = (
                     service.equipment_ids
-                        if not service.parent_service_id or not lock
-                        else self.env['service.allocate'] \
-                                 .search([('id', '=', service.parent_service_id.id),
-                                         ]).equipment_ids
+                    if not service.parent_service_id or not lock
+                    else self.env['service.allocate']
+                             .search([('id', '=', service.parent_service_id.id),
+                                      ]).equipment_ids
                     )
                 for equipment in equipment_list:
                     all_services = self.env['service.allocate'] \
@@ -108,10 +108,10 @@ class ServiceRule(models.Model):
                 lock = service.parent_service_id.service_template_id.next_lock_vehicle
                 vehicle_list = (
                     service.vehicle_ids
-                        if not service.parent_service_id or not lock
-                        else self.env['service.allocate'] \
-                                 .search([('id', '=', service.parent_service_id.id),
-                                         ]).vehicle_ids
+                    if not service.parent_service_id or not lock
+                    else self.env['service.allocate']
+                             .search([('id', '=', service.parent_service_id.id),
+                                      ]).vehicle_ids
                     )
                 for vehicle in vehicle_list:
                     all_services = self.env['service.allocate'] \
@@ -142,11 +142,19 @@ class ServiceRule(models.Model):
         # _TODO_ check if in rule_id
         rule_name = rule
         # Get the method from 'self'. Default to a lambda.
-        method = getattr(self, rule_name, lambda: "Invalid rule")
+        method = getattr(self, rule_name, "_invalid_rule")
         # Call the method as we return it
-
-        result = method(obj_id)
+        if method == '_invalid_rule':
+            self._invalid_rule(rule_name)
+        else:
+            result = method(obj_id)
         return result
+
+    def _invalid_rule(self, rule_name):
+        """
+        Management of method non defined
+        """
+        raise UserError(_('Method %s not defined') % (rule_name))
 
     def _rule_method_template(self):
         """
@@ -164,13 +172,17 @@ class ServiceRule(models.Model):
         _todo_ define/set active shift
         """
         total_time = 0
+
+        # extract employees of the service
         for employee in (self.env['service.allocate']
                          .search([('id', '=', obj_id)]).employee_ids):
+            # get services where employee is assigned
             sql = ('SELECT service_allocate_id '
                    'FROM hr_employee_service_allocate_rel '
                    'WHERE hr_employee_id='+str(employee.id))
             self.env.cr.execute(sql)
-            
+            # get duration of each service
+            # _todo_ calculate as end-start
             for srv_id in self.env.cr.fetchall():
                 total_time += self.env['service.allocate'] \
                                   .search([('id', '=', srv_id)]) \

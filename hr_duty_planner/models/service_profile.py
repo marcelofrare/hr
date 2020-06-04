@@ -16,7 +16,8 @@ class ServiceProfile(models.Model):
     # fields
     # name
     name = fields.Char('Name', required=True)
-    # rule
-
+    # set rule ignore
+    rule_ignore = fields.Boolean('Ignore Rule', default=False,
+                                 help='If active all the Rules will not be checked')
     # parameter values
     parameter_ids = fields.Many2many('service.profileparameter', string='Field')
