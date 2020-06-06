@@ -6,7 +6,10 @@
     "summary":  "Management of duty planning.",
     "version":  "12.0.1.0.0",
 
-    "author":   "Stefano Consolaro, Associazione PNLUG - Gruppo Odoo",
+    "author":   "Stefano Consolaro <stefano.consolaro@mymage.it>, "
+    "Marcelo Frare <mf2965@gmail.com>"
+    "Associazione PNLUG - Gruppo Odoo, "
+    "Odoo Community Association (OCA)",
     "website":  "https://github.com/PNLUG/vertical-ngo/",
     "license":  "AGPL-3",
 
