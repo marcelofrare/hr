@@ -94,6 +94,11 @@
             <field name="rule_field_id">1</field>
             <field name="field_value">10</field>
         </record>
+        <record id="service_profileparameter_5" model="service.profileparameter">
+            <field name="rule_id">1</field>
+            <field name="rule_field_id">2</field>
+            <field name="field_value">5</field>
+        </record>
         <record id="service_profileparameter_2" model="service.profileparameter">
             <field name="rule_id">1</field>
             <field name="rule_field_id">1</field>
@@ -113,19 +118,26 @@
         <!-- service profiles -->
         <record id="service_profile_1" model="service.profile">
             <field name="name">Nurse professional</field>
-            <field name="parameter_ids" eval="[(6, 0,[ref('service_profileparameter_1'),ref('service_profileparameter_4')])]"/>
+            <field name="parameter_ids" 
+                eval="[(6, 0,[ref('service_profileparameter_1'),
+                              ref('service_profileparameter_5'),
+                              ref('service_profileparameter_4')])]"/>
         </record>
         <record id="service_profile_2" model="service.profile">
             <field name="name">Nurse trainee</field>
-            <field name="parameter_ids" eval="[(6, 0,[ref('service_profileparameter_1'),ref('service_profileparameter_3')])]"/>
+            <field name="parameter_ids" 
+                eval="[(6, 0,[ref('service_profileparameter_1'),
+                              ref('service_profileparameter_3')])]"/>
         </record>
         <record id="service_profile_3" model="service.profile">
             <field name="name">Driver professional</field>
-            <field name="parameter_ids" eval="[(4, ref('service_profileparameter_2'))]" />
+            <field name="parameter_ids" 
+                eval="[(4, ref('service_profileparameter_2'))]" />
         </record>
         <record id="service_profile_4" model="service.profile">
             <field name="name">Controller</field>
-            <field name="parameter_ids" eval="[(4, ref('service_profileparameter_4'))]" />
+            <field name="parameter_ids" 
+                eval="[(4, ref('service_profileparameter_4'))]" />
         </record>
 
         <!-- hr employee -->
