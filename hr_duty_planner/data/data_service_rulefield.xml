@@ -10,8 +10,15 @@
             <field name="field_default">12</field>
             <field name="field_mandatory">True</field>
         </record>
-        <!-- rule hour_active_week / id=2 -->
         <record model="service.rulefield" id="2">
+            <field name="rule_id">1</field>
+            <field name="field_name">h_min</field>
+            <field name="field_desc">Minimum work hours per day</field>
+            <field name="field_default">4</field>
+            <field name="field_mandatory">True</field>
+        </record>
+        <!-- rule hour_active_week / id=2 -->
+        <record model="service.rulefield" id="3">
             <field name="rule_id">2</field>
             <field name="field_name">h_min</field>
             <field name="field_desc">Maximum rest hours per week</field>
@@ -19,7 +26,7 @@
             <field name="field_mandatory">True</field>
         </record>
         <!-- rule end_of_shift_rest / id=7 -->
-        <record model="service.rulefield" id="3">
+        <record model="service.rulefield" id="4">
             <field name="rule_id">7</field>
             <field name="field_name">is_request</field>
             <field name="field_desc">Reguire a rest shift after a work shift</field>
