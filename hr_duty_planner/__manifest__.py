@@ -24,7 +24,7 @@
         'web_timeline',
         'web_widget_color',
         'hr_skill',
-        'hr_employee_partner',
+        # 'hr_employee_partner_external',
         'fleet_vehicle_category',
         ],
     "data": [
